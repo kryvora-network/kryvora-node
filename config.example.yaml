@@ -1,0 +1,13 @@
+node:
+  listen_addr: "0.0.0.0:4177"
+  data_dir: "/var/lib/kryvora"
+  worker_threads: 4
+
+hub:
+  endpoint: "https://hub.kryvora.network:4188"
+  heartbeat_interval_sec: 30
+
+telemetry:
+  enabled: true
+  metrics_path: "/metrics"
+  status_path: "/status"
