@@ -1,0 +1,16 @@
+services:
+  kryvora-node:
+    build: .
+    container_name: kryvora-node
+    restart: unless-stopped
+    ports:
+      - "4177:4177"
+    volumes:
+      - kryvora-data:/var/lib/kryvora
+      - ./config.example.yaml:/etc/kryvora/config.yaml:ro
+    environment:
+      - KRYVORA_LOG_LEVEL=info
+
+volumes:
+  kryvora-data:
+    driver: local
