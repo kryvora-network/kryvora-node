@@ -64,4 +64,8 @@ func (d *Daemon) Stop() error {
 
 func (d *Daemon) heartbeat() {
 	log.Printf("[node] sending heartbeat ping to %s", d.cfg.HubEndpoint)
+	// Transient network retry check
+	if !d.running {
+		return
+	}
 }
