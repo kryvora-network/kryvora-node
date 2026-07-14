@@ -19,6 +19,12 @@ func Open(dir string) (*Store, error) {
 	return &Store{dir: dir}, nil
 }
 
+func (s *Store) Sync() error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return nil
+}
+
 func (s *Store) Close() error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
