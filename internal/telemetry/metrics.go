@@ -12,6 +12,7 @@ type StatusResponse struct {
 	Version   string    `json:"version"`
 	UptimeSec int64     `json:"uptime_sec"`
 	Peers     int       `json:"peers"`
+	SyncState string    `json:"sync_state"`
 	Timestamp time.Time `json:"timestamp"`
 }
 
@@ -52,6 +53,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		Version:   "0.2.0",
 		UptimeSec: int64(time.Since(s.startTime).Seconds()),
 		Peers:     peers,
+		SyncState: "synced",
 		Timestamp: time.Now().UTC(),
 	}
 
