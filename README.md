@@ -1,5 +1,11 @@
 # kryvora-node
 
+[![Go Version](https://img.shields.io/badge/go-%3E%3D%201.22-30363d.svg?style=flat-square&logo=go)](https://golang.org)
+[![License](https://img.shields.io/badge/license-Apache--2.0-30363d.svg?style=flat-square)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/kryvora-network/kryvora-node?style=flat-square&color=30363d&label=release)](https://github.com/kryvora-network/kryvora-node/releases)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/kryvora-network/kryvora-node/ci.yml?branch=main&style=flat-square&label=ci&color=30363d)](https://github.com/kryvora-network/kryvora-node/actions)
+[![Network](https://img.shields.io/badge/network-Kryvora%20DePIN-30363d.svg?style=flat-square)](https://kryvora.network)
+
 Official client daemon for Kryvora Network nodes.
 
 ## Overview
