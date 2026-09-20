@@ -1,7 +1,17 @@
+# Kryvora Node Configuration Example
+# Copy this file to config.yaml and configure your settings.
+
 node:
   listen_addr: "0.0.0.0:4177"
   data_dir: "/var/lib/kryvora"
   worker_threads: 4
+
+auth:
+  # Mandatory: Genesis Node Key bootstrap token or activation credential.
+  # Operating a verification node requires an active Genesis Node Key on Arbitrum One.
+  # Mint or link your key at: https://node.kryvora.network
+  # You can also pass this via the KRYVORA_BOOTSTRAP_TOKEN environment variable.
+  bootstrap_token: ""
 
 hub:
   endpoint: "https://hub.kryvora.network:4188"

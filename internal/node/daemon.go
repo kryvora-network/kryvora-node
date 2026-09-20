@@ -2,6 +2,7 @@ package node
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -27,11 +28,15 @@ func New(cfg *config.Config, store *storage.Store) *Daemon {
 }
 
 func (d *Daemon) Start(ctx context.Context) error {
+	if d.cfg.BootstrapToken == "" {
+		return fmt.Errorf("node authentication failed: missing Genesis Node Key bootstrap token (contract: 0xBCf2cD12D1D37578fA7C69805fE77788e866BE1a). Register key at https://node.kryvora.network")
+	}
+
 	d.mu.Lock()
 	d.running = true
 	d.mu.Unlock()
 
-	log.Printf("[node] daemon started on %s", d.cfg.ListenAddr)
+	log.Printf("[node] daemon started on %s (Genesis Key: authenticated)", d.cfg.ListenAddr)
 
 	ticker := time.NewTicker(d.cfg.HeartbeatInterval)
 	defer ticker.Stop()
@@ -63,7 +68,11 @@ func (d *Daemon) Stop() error {
 }
 
 func (d *Daemon) heartbeat() {
-	log.Printf("[node] sending heartbeat ping to %s", d.cfg.HubEndpoint)
+	if d.cfg.BootstrapToken == "" {
+		log.Printf("[node] [AUTH_DENIED] heartbeat aborted: node missing Genesis Node Key license. Visit https://node.kryvora.network")
+		return
+	}
+	log.Printf("[node] sending authenticated heartbeat ping to %s", d.cfg.HubEndpoint)
 	// Transient network retry check
 	if !d.running {
 		return

@@ -40,6 +40,17 @@ Kryvora is a decentralized physical infrastructure network designed for distribu
 +-------------------------------------------------------------+
 ```
 
+## Node Licensing & Genesis Key Requirement
+
+Operating a Kryvora verification node requires an active **Genesis Node Key**.
+The Genesis Node Key is an on-chain soulbound verification credential deployed on Arbitrum One:
+
+* **Contract**: `0xBCf2cD12D1D37578fA7C69805fE77788e866BE1a`
+* **Network**: Arbitrum One (Chain ID: `42161`)
+* **Portal**: [https://node.kryvora.network](https://node.kryvora.network)
+
+Before launching the daemon, obtain your node bootstrap token by connecting your wallet at [node.kryvora.network](https://node.kryvora.network). Unauthenticated nodes without a valid bootstrap token will be rejected by the Coordination Hub (`hub.kryvora.network:4188`).
+
 ## System Requirements
 
 Hardware specs for running a standard verification worker:
@@ -59,6 +70,8 @@ Run the installation script to fetch the binary and register the systemd service
 curl -sSL https://raw.githubusercontent.com/kryvora-network/kryvora-node/main/install.sh | bash
 ```
 
+The script will prompt for your Genesis Node Key bootstrap token and register the systemd service.
+
 Check service status:
 
 ```bash
@@ -74,16 +87,18 @@ git clone https://github.com/kryvora-network/kryvora-node.git
 cd kryvora-node
 ```
 
-2. Copy the default configuration:
+2. Copy the configuration template and set your token:
 
 ```bash
 cp config.example.yaml config.yaml
+# Edit config.yaml and insert your bootstrap_token under auth:
+# Or set KRYVORA_BOOTSTRAP_TOKEN in your environment
 ```
 
 3. Start the node container:
 
 ```bash
-docker compose up -d
+KRYVORA_BOOTSTRAP_TOKEN="your_token_here" docker compose up -d
 ```
 
 4. Verify logs:
@@ -100,7 +115,7 @@ Requirements: Go 1.22 or higher.
 git clone https://github.com/kryvora-network/kryvora-node.git
 cd kryvora-node
 make build
-./bin/kryvora-node --config config.example.yaml
+./bin/kryvora-node --config config.yaml --token "your_token_here"
 ```
 
 ## Configuration
@@ -112,6 +127,7 @@ Configuration is loaded from `config.yaml` or set via environment variables.
 | `node.id` | string | auto-generated | Unique identifier for worker node |
 | `node.listen_addr` | string | `0.0.0.0:4177` | Local address for telemetry and metrics |
 | `node.data_dir` | string | `/var/lib/kryvora` | Local state and task database directory |
+| `auth.bootstrap_token` | string | `""` | Mandatory: Genesis Node Key activation token |
 | `hub.endpoint` | string | `https://hub.kryvora.network:4188` | Upstream coordination hub address |
 | `hub.heartbeat_interval` | int | `30` | Interval in seconds between hub pings |
 | `telemetry.enabled` | bool | `true` | Expose Prometheus metrics on `/metrics` |

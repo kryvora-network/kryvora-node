@@ -10,6 +10,7 @@ services:
       - ./config.example.yaml:/etc/kryvora/config.yaml:ro
     environment:
       - KRYVORA_LOG_LEVEL=info
+      - KRYVORA_BOOTSTRAP_TOKEN=${KRYVORA_BOOTSTRAP_TOKEN:-}
 
 volumes:
   kryvora-data:

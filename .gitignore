@@ -5,5 +5,5 @@ dist/
 *.sqlite
 /data/
 config.yaml
-kryvora-node
+/kryvora-node
 *.test
