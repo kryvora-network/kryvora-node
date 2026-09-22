@@ -27,7 +27,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	cfg := config.DefaultConfig()
+	cfg, err := config.Load(*configPath)
+	if err != nil {
+		log.Fatalf("failed to load configuration: %v", err)
+	}
 	if *port != "" {
 		cfg.ListenAddr = "0.0.0.0:" + *port
 	}
