@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -25,6 +26,17 @@ func DefaultConfig() *Config {
 		WorkerThreads:     4,
 		TelemetryEnabled:  true,
 	}
+}
+
+func Load(path string) (*Config, error) {
+	cfg := DefaultConfig()
+	if path == "" {
+		return cfg, nil
+	}
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return cfg, nil
+	}
+	return cfg, nil
 }
 
 func (c *Config) Validate() error {
