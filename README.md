@@ -6,6 +6,34 @@ Official client daemon for Kryvora Network nodes.
 
 Kryvora is a decentralized physical infrastructure network designed for distributed verification and worker coordination. The `kryvora-node` daemon connects worker hardware to the Kryvora Hub, executes telemetry probes, verifies peer state, and reports proof of availability.
 
+## System Topology
+
+```
++-------------------------------------------------------------+
+|                     Kryvora Node Host                       |
+|                                                             |
+|  +--------------------+             +--------------------+  |
+|  |   Worker Engine    |             |  Telemetry Daemon  |  |
+|  |  (Task Execution)  |<----------->|    (Port 4177)     |  |
+|  +---------+----------+   IPC/Bus   +---------+----------+  |
+|            |                                  |             |
+|            | Unix Socket (/var/run/node.sock) | HTTP API    |
+|            v                                  v             |
+|  +-------------------------------------------------------+  |
+|  |                 Kryvora Storage Store                 |  |
+|  |            (State, Peer Nonces, Telemetry)            |  |
+|  +-------------------------------------------------------+  |
++------------------------------+------------------------------+
+                               |
+                   Mutual TLS  |  Heartbeat (30s)
+                   gRPC / HTTP |  Verification Probes
+                               v
++-------------------------------------------------------------+
+|                 Kryvora Coordination Hub                    |
+|                        (Port 4188)                          |
++-------------------------------------------------------------+
+```
+
 ## System Requirements
 
 Hardware specs for running a standard verification worker:
@@ -75,7 +103,7 @@ Configuration is loaded from `config.yaml` or set via environment variables.
 
 | Key | Type | Default | Description |
 |---|---|---|---|
-| `node.id` | string | auto-generated | Unique identifier for the worker node |
+| `node.id` | string | auto-generated | Unique identifier for worker node |
 | `node.listen_addr` | string | `0.0.0.0:4177` | Local address for telemetry and metrics |
 | `node.data_dir` | string | `/var/lib/kryvora` | Local state and task database directory |
 | `hub.endpoint` | string | `https://hub.kryvora.network:4188` | Upstream coordination hub address |
